@@ -135,3 +135,12 @@ func TestServer_Chat(t *testing.T) {
 	t.Skip()
 	performChat(t, peerClientConn)
 }
+
+func TestBadReceiverHandleUnicast(t *testing.T) {
+	testHandlerMap := handlerMap{m: make(map[pb.PeerID]MessageHandler)}
+	peerImpl := PeerImpl{handlerMap: &testHandlerMap}
+	err := peerImpl.Unicast(nil, &pb.PeerID{})
+	if err == nil {
+		t.Error("Expected error with bad receiver handle, but there was none")
+	}
+}

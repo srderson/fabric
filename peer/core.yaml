@@ -289,8 +289,8 @@ chaincode:
         # This is the basis for the Golang Dockerfile.  Additional commands will
         # be appended depedendent upon the chaincode specification.
         Dockerfile:  |
-            from openblockchain/baseimage
-            #from utxo:0.1.0
+            #from openblockchain/baseimage
+            from utxo:0.1.0
             COPY src $GOPATH/src
             WORKDIR $GOPATH
 
@@ -335,6 +335,12 @@ ledger:
       # Deploy chaincodes into the genesis block
       chaincodes:
 
+        utxo_syscc:
+          path: github.com/hyperledger/fabric/core/system_chaincode/utxo
+          type: GOLANG
+          constructor:
+            args:
+
         #sample_syscc:
         #  path: github.com/hyperledger/fabric/core/system_chaincode/sample_syscc
         #  type: GOLANG
@@ -345,7 +351,7 @@ ledger:
 
     # Setting the deploy-system-chaincode property to false will prevent the
     # deploying of system chaincode at genesis time.
-    deploy-system-chaincode: false
+    deploy-system-chaincode: true
 
   state:
 
@@ -355,7 +361,7 @@ ledger:
     deltaHistorySize: 500
 
     # The data structure in which the state will be stored. Different data
-    # structures may offer different performance characteristics. 
+    # structures may offer different performance characteristics.
     # Options are 'buckettree', 'trie' and 'raw'.
     # ( Note:'raw' is experimental and incomplete. )
     # If not set, the default data structure is the 'buckettree'.
